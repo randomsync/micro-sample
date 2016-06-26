@@ -10,9 +10,9 @@ env:
 
 build:
    pre_ci:
-       - cd micro-api && docker build -t randomsync/micro-api .
+       - cd micro-api && docker build -t micro-sample/micro-api .
    pre_ci_boot:
-        image_name: randomsync/micro-api
+        image_name: micro-sample/micro-api
         image_tag: latest
         pull: false
 
@@ -22,15 +22,16 @@ build:
        - cd micro-api
        - npm install
        - grunt
-   on_success:
+   push:
        - cd ..
-       - cd micro-www && docker build -t randomsync/micro-www .
-       - docker tag -f randomsync/micro-www:latest randomsync/micro-www:$BRANCH.$BUILD_NUMBER
-       - docker tag -f randomsync/micro-api:latest randomsync/micro-api:$BRANCH.$BUILD_NUMBER
-       - docker push randomsync/micro-api:$BRANCH.$BUILD_NUMBER
-       - docker push randomsync/micro-www:$BRANCH.$BUILD_NUMBER
+       - cd micro-www && docker build -t micro-sample/micro-www .
+       - docker tag micro-sample/micro-www:latest us.gcr.io/handy-coast-134920/micro-www:$BRANCH.$BUILD_NUMBER
+       - docker tag micro-sample/micro-api:latest us.gcr.io/handy-coast-134920/micro-api:$BRANCH.$BUILD_NUMBER
+       - docker push us.gcr.io/handy-coast-134920/micro-api:$BRANCH.$BUILD_NUMBER
+       - docker push us.gcr.io/handy-coast-134920/micro-www:$BRANCH.$BUILD_NUMBER
 
 integrations:
     hub:
-        - integrationName: docker-hub
-          type: docker
+        - integrationName: gcr
+          type: gcr
+          agent_only: true
