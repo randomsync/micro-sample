@@ -23,7 +23,7 @@ build:
        - npm install
        - grunt
    push:
-       - pwd
+       - cd /root/src/github.com/randomsync/micro-sample
        - cd micro-www && docker build -t micro-sample/micro-www .
        - docker tag micro-sample/micro-www:latest us.gcr.io/handy-coast-134920/micro-www:$BRANCH.$BUILD_NUMBER
        - docker tag micro-sample/micro-api:latest us.gcr.io/handy-coast-134920/micro-api:$BRANCH.$BUILD_NUMBER
